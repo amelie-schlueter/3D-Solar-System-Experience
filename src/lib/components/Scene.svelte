@@ -1,54 +1,42 @@
 <script>
 	import { T, useTask } from '@threlte/core';
-	import {
-		Instance,
-		OrbitControls,
-		InstancedMesh,
-		interactivity,
-		Text,
-		Suspense,
-		HTML,
-		FakeGlowMaterial,
-		Outlines,
-		Stars
-	} from '@threlte/extras';
-	import { useLoader } from '@threlte/core';
-	import { spring } from 'svelte/motion';
-	import { AmbientLight, PointLight, TextureLoader } from 'three';
+	import { Instance, InstancedMesh, OrbitControls, Stars } from '@threlte/extras';
+	import Sun from './Space/Sun.svelte';
+	import Planet from './Space/Planet.svelte';
 
-	//
-
-	const earth = useLoader(TextureLoader).load('src/public/sun.jpeg');
-	const clouds = useLoader(TextureLoader).load('src/public/earth-clouds.jpeg');
-	interactivity();
-	const scale = spring(1);
-	let rotation = 0;
-	useTask((delta) => {
-		rotation += delta * 0.15;
-	});
+	export let data;
 </script>
 
 <T.PerspectiveCamera
 	makeDefault
 	position={[10, 10, 10]}
 	on:create={({ ref }) => {
-		ref.lookAt(0, 1, 0);
+		ref.lookAt(0, 0, 0);
 	}}
 >
 	<OrbitControls />
 </T.PerspectiveCamera>
 <Stars />
 <T.AmbientLight intensity={0.1} />
-<T.Mesh rotation.y={rotation} position.y={1} scale={$scale} on:click={() => {}}>
-	<T.IcosahedronGeometry args={[1, 6]} />
-	<T is={AmbientLight} intensity={2} />
-	<T.MeshStandardMaterial map={$earth} />
-	<FakeGlowMaterial glowColor="orange" glowInternalRadius={20} />
-	<Outlines color="orange" opacity={0.5} thickness={0.005} />
-</T.Mesh>
 
-<T.Mesh rotation.y={rotation * 1.4} position.y={1} scale={$scale} on:click={() => {}}>
-	<T.IcosahedronGeometry args={[1, 4]} />
+<Sun />
 
-	<T.MeshStandardMaterial map={$earth} />
-</T.Mesh>
+<InstancedMesh>
+	<T.SphereGeometry args={[0.5]} />
+	<T.MeshStandardMaterial color="white" />
+	<!-- <Planet
+		meanRadius={data.bodies[0].meanRadius}
+		name={'TestPlanet'}
+		scaleValue={1}
+		position={{ x: 2, y: 1, z: 1 }}
+	/> -->
+
+	{#each data.bodies as body, index}
+		<Planet
+			meanRadius={body.meanRadius}
+			name={`Planet ${index}`}
+			scaleValue={1}
+			position={{ x: 2 * index, y: 1, z: 1 }}
+		/>
+	{/each}
+</InstancedMesh>
