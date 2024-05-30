@@ -60,3 +60,8 @@ export const flyAndScale = (
 		easing: cubicOut
 	};
 };
+
+
+export function convertDistance(distanceInKm: number) {
+	return distanceInKm / 100000000; // Scale down for better visualization in Three.js units
+}

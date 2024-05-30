@@ -3,12 +3,12 @@
 
 	import { T, useLoader, useTask } from '@threlte/core';
 	import { spring } from 'svelte/motion';
-	import { AmbientLight, PointLight, TextureLoader } from 'three';
+	import { AmbientLight, Light, PointLight, TextureLoader } from 'three';
+	import { onMount } from 'svelte';
 
 	//
+	let earth = useLoader(TextureLoader).load('src/public/sun.jpeg');
 
-	const earth = useLoader(TextureLoader).load('src/public/sun.jpeg');
-	const clouds = useLoader(TextureLoader).load('src/public/earth-clouds.jpeg');
 	interactivity();
 	const scale = spring(1);
 	let rotation = 0;
@@ -17,7 +17,7 @@
 	});
 </script>
 
-<T.Mesh rotation.y={rotation} position.y={1} scale={$scale} on:click={() => {}}>
+<T.Mesh rotation.y={rotation} position.y={1} scale={$scale} on:click={() => console.log('sund')}>
 	<T.IcosahedronGeometry args={[1, 6]} />
 	<T is={AmbientLight} intensity={2} />
 	<T.MeshStandardMaterial map={$earth} />
