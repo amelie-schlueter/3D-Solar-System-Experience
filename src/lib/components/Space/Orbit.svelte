@@ -5,29 +5,34 @@
 
 	export let semimajorAxis = 2870658186; // Default in Kilometern
 	export let eccentricity = 0.0457; // Default eccentricity
-	let numPoints = 100; // Number of points for the ellipse
+	let numPoints = 1000; // Number of points for the ellipse
 
 	function convertDistance(distanceInKm: number) {
 		return distanceInKm / 1e8; // Scale down for better visualization in Three.js units
 	}
 
-	function createEllipsePoints(a: number, e: number, numPoints: number) {
-		const b = a * Math.sqrt(1 - e * e); // Calculate the minor axis
+	function calculateEllipsePointsNew(numPoints: number) {
 		const points = [];
-		for (let i = 0; i <= numPoints; i++) {
-			const theta = (i / numPoints) * 2 * Math.PI;
-			const x = a * Math.cos(theta);
-			const z = b * Math.sin(theta);
-			points.push(new Vector3(convertDistance(x), 0, convertDistance(z)));
+		const twoPi = 2 * Math.PI;
+
+		for (let i = 0; i < numPoints; i++) {
+			const angle = (i * twoPi) / numPoints; // Winkel in Bogenmaß
+			const radius =
+				(semimajorAxis * (1 - Math.pow(eccentricity, 2))) / (1 + eccentricity * Math.cos(angle)); // Polarformel für Ellipse
+
+			// Umrechnung von Polar- zu kartesischen Koordinaten
+			const x = radius * Math.cos(angle);
+			const y = radius * Math.sin(angle);
+			points.push(new Vector3(convertDistance(x), 0, convertDistance(y)));
+			// points.push({ x, y });
 		}
-		const curve = new CatmullRomCurve3(points);
 		return points;
 	}
 
-	const ellipsePoints = createEllipsePoints(semimajorAxis, eccentricity, numPoints);
+	const ellipsePoints = calculateEllipsePointsNew(numPoints);
 </script>
 
 <T.Mesh>
 	<MeshLineGeometry points={ellipsePoints} />
-	<MeshLineMaterial color="lightgray" width={0.01} />
+	<MeshLineMaterial color="lightgray" width={0.02} />
 </T.Mesh>

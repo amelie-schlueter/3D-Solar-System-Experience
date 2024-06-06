@@ -28,6 +28,8 @@
 	export let rotationSpeed = 0.01; // Rotation speed for visualization
 	export let meanRadius = 25362; // Mean radius in Kilometern
 	export let eccentricity = 0.0457; // Eccentricity of the orbit
+	export let aphelion; // Aphelion in Kilometern
+	export let perihelion; // Perihelion in Kilometern
 
 	let stopped = false; // Initial state is true because we want to stop initially
 

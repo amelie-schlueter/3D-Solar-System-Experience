@@ -17,7 +17,7 @@
 	});
 </script>
 
-<T.Mesh rotation.y={rotation} position.y={1} scale={$scale} on:click={() => console.log('sund')}>
+<T.Mesh rotation.y={rotation} position.y={1} scale={$scale} on:click={() => console.log('sun')}>
 	<T.IcosahedronGeometry args={[1, 6]} />
 	<T is={AmbientLight} intensity={2} />
 	<T.MeshStandardMaterial map={$earth} />
