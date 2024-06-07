@@ -29,8 +29,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@dimforge/rapier3d-compat": "^0.13.1",
 		"@threlte/core": "^7.3.0",
 		"@threlte/extras": "^8.11.2",
+		"@threlte/rapier": "^2.0.0",
 		"@types/three": "^0.164.1",
 		"bits-ui": "^0.21.10",
 		"clsx": "^2.1.1",

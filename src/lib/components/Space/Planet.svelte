@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tweened } from 'svelte/motion';
-	import { Instance, Outlines, interactivity } from '@threlte/extras';
+	import { HTML, Instance, Outlines, Text, interactivity, useCursor } from '@threlte/extras';
 	import { T, useLoader, useTask } from '@threlte/core';
 	import {
 		TextureLoader,
@@ -10,13 +10,14 @@
 		BufferGeometry,
 		Line,
 		LineBasicMaterial,
-		InstancedMesh
+		InstancedMesh,
+		Texture
 	} from 'three';
 	import { journeyStarted } from '$lib/stores/store';
 	import { onDestroy, onMount } from 'svelte';
 	import Orbit from './Orbit.svelte';
-
-	const earth = useLoader(TextureLoader).load('src/public/planet.jpeg');
+	import { convertDistance } from '$lib/utils';
+	import { writable } from 'svelte/store';
 
 	interactivity();
 
@@ -28,18 +29,31 @@
 	export let rotationSpeed = 0.01; // Rotation speed for visualization
 	export let meanRadius = 25362; // Mean radius in Kilometern
 	export let eccentricity = 0.0457; // Eccentricity of the orbit
-	export let aphelion; // Aphelion in Kilometern
-	export let perihelion; // Perihelion in Kilometern
 
 	let stopped = false; // Initial state is true because we want to stop initially
+	// Variables to hold the texture
+	let planetTexture = new Texture();
+	let textureLoaded = false; // To track texture loading state
+
+	// Load the sun texture on mount
+	onMount(() => {
+		const loader = new TextureLoader();
+		loader.load(
+			'src/public/planet.jpeg',
+			(texture) => {
+				planetTexture = texture;
+				textureLoaded = true;
+			},
+			undefined,
+			(err) => {
+				console.error('An error occurred loading the texture.', err);
+			}
+		);
+	});
 
 	const scale = tweened(scaleValue);
 	let rotation = 0;
 	let elapsedTime = 0;
-
-	function convertDistance(distanceInKm: number) {
-		return distanceInKm / 100000000; // Scale down for better visualization in Three.js units
-	}
 
 	export function calculatePosition(
 		semimajorAxis: number,
@@ -70,6 +84,22 @@
 		};
 	}
 
+	const { hovering } = useCursor();
+
+	const onHoverIn = () => {
+		hovering.set(true);
+		console.log('hover in');
+		// scale
+		scale.set(1.2);
+	};
+	const onHoverOut = () => {
+		hovering.set(false);
+		console.log('hover out');
+		scale.set(1);
+	};
+
+	let value = '';
+
 	// Set up the animation task
 	const { start, stop } = useTask((delta) => {
 		elapsedTime += delta * 50;
@@ -92,6 +122,12 @@
 	console.log(eccentricity);
 </script>
 
+{#if $hovering || stopped}
+	<HTML position.x={position.x - 0.5} position.z={position.z} position.y={position.y + 1}>
+		<div class="p-2 rounded-md bg-muted"><p class="text-sm w-full">{name}</p></div>
+	</HTML>
+{/if}
+
 <Instance
 	position.x={position.x}
 	position.z={position.z}
@@ -100,9 +136,13 @@
 	rotation.y={rotation}
 	on:click={clickHandler}
 >
-	<T.Mesh on:click={() => console.log(name)}>
+	<T.Mesh
+		on:click={() => console.log(name)}
+		on:pointerenter={onHoverIn}
+		on:pointerleave={onHoverOut}
+	>
 		<T.IcosahedronGeometry args={[1, 6]} />
-		<T.MeshStandardMaterial map={$earth} />
+		<T.MeshStandardMaterial map={planetTexture} />
 		{#if stopped}
 			<Outlines color="orange" opacity={1} thickness={0.05} />
 		{/if}

@@ -63,5 +63,5 @@ export const flyAndScale = (
 
 
 export function convertDistance(distanceInKm: number) {
-	return distanceInKm / 100000000; // Scale down for better visualization in Three.js units
+	return distanceInKm / 50000000; // Scale down for better visualization in Three.js units
 }

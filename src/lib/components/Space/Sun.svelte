@@ -1,32 +1,63 @@
 <script>
-	import { interactivity, FakeGlowMaterial, Outlines } from '@threlte/extras';
-
-	import { T, useLoader, useTask } from '@threlte/core';
+	import { FakeGlowMaterial, Outlines, interactivity } from '@threlte/extras';
+	import { T, useLoader, useFrame } from '@threlte/core';
 	import { spring } from 'svelte/motion';
-	import { AmbientLight, Light, PointLight, TextureLoader } from 'three';
+	import { AmbientLight, Texture, TextureLoader } from 'three';
 	import { onMount } from 'svelte';
 
-	//
-	let earth = useLoader(TextureLoader).load('src/public/sun.jpeg');
+	// Variables to hold the texture
+	let earthTexture = new Texture();
+	let textureLoaded = false; // To track texture loading state
 
+	// Load the sun texture on mount
+	onMount(() => {
+		const loader = new TextureLoader();
+		loader.load(
+			'src/public/sun.jpeg',
+			(texture) => {
+				earthTexture = texture;
+				textureLoaded = true;
+			},
+			undefined,
+			(err) => {
+				console.error('An error occurred loading the texture.', err);
+			}
+		);
+	});
+
+	// Enable interactivity
 	interactivity();
-	const scale = spring(1);
+
+	// Set up a spring for scaling
+	const scale = spring(0.8);
+
+	// Variable to hold rotation value
 	let rotation = 0;
-	useTask((delta) => {
-		rotation += delta * 0.15;
+
+	// Update rotation on every frame
+
+	useFrame((dt) => {
+		//@ts-ignore
+		rotation += dt * 0.15;
 	});
 </script>
 
-<T.Mesh rotation.y={rotation} position.y={1} scale={$scale} on:click={() => console.log('sun')}>
-	<T.IcosahedronGeometry args={[1, 6]} />
-	<T is={AmbientLight} intensity={2} />
-	<T.MeshStandardMaterial map={$earth} />
-	<FakeGlowMaterial glowColor="orange" glowInternalRadius={20} />
-	<Outlines color="orange" opacity={0.5} thickness={0.005} />
-</T.Mesh>
+<!-- Ensure meshes are rendered only if the texture is loaded -->
+{#if textureLoaded}
+	<!-- Create the first 3D Mesh -->
+	<T.Mesh rotation-y={rotation} position-y={0} scale={$scale} on:click={() => console.log('sun')}>
+		<!-- Geometry and material for the sun -->
+		<T.IcosahedronGeometry args={[1, 6]} />
+		<T is={AmbientLight} intensity={2} />
+		<T.MeshStandardMaterial map={earthTexture} />
+		<FakeGlowMaterial glowColor="orange" glowInternalRadius={20} />
+		<Outlines color="orange" opacity={0.5} thickness={0.005} />
+	</T.Mesh>
 
-<T.Mesh rotation.y={rotation * 1.4} position.y={1} scale={$scale} on:click={() => {}}>
-	<T.IcosahedronGeometry args={[1, 4]} />
-
-	<T.MeshStandardMaterial map={$earth} />
-</T.Mesh>
+	<!-- Create the second (smaller) 3D Mesh -->
+	<T.Mesh rotation-y={rotation * 1.4} position-y={0} scale={$scale} on:click={() => {}}>
+		<!-- Geometry and material for the second sun-like object -->
+		<T.IcosahedronGeometry args={[1, 4]} />
+		<T.MeshStandardMaterial map={earthTexture} />
+	</T.Mesh>
+{/if}

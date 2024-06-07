@@ -2,14 +2,11 @@
 	import { T } from '@threlte/core';
 	import { CatmullRomCurve3, Vector3 } from 'three';
 	import { MeshLineGeometry, MeshLineMaterial } from '@threlte/extras';
+	import { convertDistance } from '$lib/utils';
 
 	export let semimajorAxis = 2870658186; // Default in Kilometern
 	export let eccentricity = 0.0457; // Default eccentricity
 	let numPoints = 1000; // Number of points for the ellipse
-
-	function convertDistance(distanceInKm: number) {
-		return distanceInKm / 1e8; // Scale down for better visualization in Three.js units
-	}
 
 	function calculateEllipsePointsNew(numPoints: number) {
 		const points = [];

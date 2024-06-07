@@ -35,8 +35,6 @@
 			semimajorAxis={body.semimajorAxis}
 			sideralOrbit={body.sideralOrbit}
 			eccentricity={body.eccentricity}
-			perihelion={body.perihelion}
-			aphelion={body.aphelion}
 		/>
 	{/each}
 </InstancedMesh>
