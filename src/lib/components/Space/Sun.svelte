@@ -29,7 +29,7 @@
 	interactivity();
 
 	// Set up a spring for scaling
-	const scale = spring(0.8);
+	const scale = spring(1.75);
 
 	// Variable to hold rotation value
 	let rotation = 0;

@@ -35,6 +35,7 @@
 			semimajorAxis={body.semimajorAxis}
 			sideralOrbit={body.sideralOrbit}
 			eccentricity={body.eccentricity}
+			id={body.id}
 		/>
 	{/each}
 </InstancedMesh>

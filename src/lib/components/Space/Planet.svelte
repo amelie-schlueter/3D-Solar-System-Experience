@@ -2,22 +2,11 @@
 	import { tweened } from 'svelte/motion';
 	import { HTML, Instance, Outlines, Text, interactivity, useCursor } from '@threlte/extras';
 	import { T, useLoader, useTask } from '@threlte/core';
-	import {
-		TextureLoader,
-		EllipseCurve,
-		Path,
-		Vector3,
-		BufferGeometry,
-		Line,
-		LineBasicMaterial,
-		InstancedMesh,
-		Texture
-	} from 'three';
+	import { TextureLoader, Texture } from 'three';
 	import { journeyStarted } from '$lib/stores/store';
-	import { onDestroy, onMount } from 'svelte';
 	import Orbit from './Orbit.svelte';
 	import { convertDistance } from '$lib/utils';
-	import { writable } from 'svelte/store';
+	import { onMount } from 'svelte';
 
 	interactivity();
 
@@ -29,17 +18,20 @@
 	export let rotationSpeed = 0.01; // Rotation speed for visualization
 	export let meanRadius = 25362; // Mean radius in Kilometern
 	export let eccentricity = 0.0457; // Eccentricity of the orbit
+	export let id = 'planet'; // Default texture
 
 	let stopped = false; // Initial state is true because we want to stop initially
 	// Variables to hold the texture
 	let planetTexture = new Texture();
 	let textureLoaded = false; // To track texture loading state
 
+	console.log(`src/public/planets/${id}.jpeg`);
+
 	// Load the sun texture on mount
 	onMount(() => {
 		const loader = new TextureLoader();
 		loader.load(
-			'src/public/planet.jpeg',
+			`src/public/planets/${id}.jpeg`,
 			(texture) => {
 				planetTexture = texture;
 				textureLoaded = true;
@@ -47,6 +39,18 @@
 			undefined,
 			(err) => {
 				console.error('An error occurred loading the texture.', err);
+				// Load the fallback texture
+				loader.load(
+					'src/public/planets/planet.jpeg',
+					(fallbackTexture) => {
+						planetTexture = fallbackTexture;
+						textureLoaded = true;
+					},
+					undefined,
+					(fallbackErr) => {
+						console.error('An error occurred loading the fallback texture.', fallbackErr);
+					}
+				);
 			}
 		);
 	});
@@ -90,7 +94,7 @@
 		hovering.set(true);
 		console.log('hover in');
 		// scale
-		scale.set(1.2);
+		scale.set(1.1);
 	};
 	const onHoverOut = () => {
 		hovering.set(false);
@@ -124,7 +128,7 @@
 
 {#if $hovering || stopped}
 	<HTML position.x={position.x - 0.5} position.z={position.z} position.y={position.y + 1}>
-		<div class="p-2 rounded-md bg-muted"><p class="text-sm w-full">{name}</p></div>
+		<div class="px-3 py-1.5 rounded-sm bg-muted"><p class="text-sm w-full">{name}</p></div>
 	</HTML>
 {/if}
 
@@ -132,7 +136,7 @@
 	position.x={position.x}
 	position.z={position.z}
 	position.y={position.y}
-	scale={($scale * meanRadius) / 100000}
+	scale={($scale * meanRadius) / 25000}
 	rotation.y={rotation}
 	on:click={clickHandler}
 >
@@ -144,7 +148,7 @@
 		<T.IcosahedronGeometry args={[1, 6]} />
 		<T.MeshStandardMaterial map={planetTexture} />
 		{#if stopped}
-			<Outlines color="orange" opacity={1} thickness={0.05} />
+			<Outlines color="#F59623" opacity={1} thickness={0.03} />
 		{/if}
 	</T.Mesh>
 </Instance>
