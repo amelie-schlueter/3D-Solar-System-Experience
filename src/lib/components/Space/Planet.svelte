@@ -6,7 +6,9 @@
 	import { journeyStarted } from '$lib/stores/store';
 	import Orbit from './Orbit.svelte';
 	import { convertDistance } from '$lib/utils';
+
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	interactivity();
 
@@ -25,31 +27,28 @@
 	let planetTexture = new Texture();
 	let textureLoaded = false; // To track texture loading state
 
-	console.log(`src/public/planets/${id}.jpeg`);
-
 	// Load the sun texture on mount
 	onMount(() => {
 		const loader = new TextureLoader();
+		// check if the texture exists
+
 		loader.load(
-			`src/public/planets/${id}.jpeg`,
+			`src/lib/images/planets/${id}.jpeg`,
+
 			(texture) => {
 				planetTexture = texture;
 				textureLoaded = true;
 			},
 			undefined,
 			(err) => {
-				console.error('An error occurred loading the texture.', err);
 				// Load the fallback texture
 				loader.load(
-					'src/public/planets/planet.jpeg',
+					'src/lib/images/planets/planet.jpeg',
 					(fallbackTexture) => {
 						planetTexture = fallbackTexture;
 						textureLoaded = true;
 					},
-					undefined,
-					(fallbackErr) => {
-						console.error('An error occurred loading the fallback texture.', fallbackErr);
-					}
+					undefined
 				);
 			}
 		);
@@ -119,11 +118,11 @@
 			start();
 		} else {
 			stop();
+			console.log('jetzt ist er gestopped');
+			goto(`/planet/${id}`);
 		}
 		stopped = !stopped; // Toggle animation state
 	};
-
-	console.log(eccentricity);
 </script>
 
 {#if $hovering || stopped}

@@ -1,9 +1,9 @@
 <script>
-	import Scene from '$lib/components/Scene.svelte';
+	import InformationCard from '$lib/components/Content/InformationCard.svelte';
+	import Scene from '$lib/components/Scene/Scene.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { journeyStarted } from '$lib/stores/store';
 	import { Canvas } from '@threlte/core';
-	import { onMount } from 'svelte';
 	export let data;
 </script>
 
@@ -28,6 +28,8 @@
 			<div>← Use your mouse to pan around →</div>
 		</div>
 	{/if}
+
+	<InformationCard /> 
 
 	<Canvas>
 		<Scene {data} />
