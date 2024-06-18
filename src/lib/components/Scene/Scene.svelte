@@ -4,7 +4,6 @@
 	import Sun from '../Space/Sun.svelte';
 	import Planet from '../Space/Planet.svelte';
 
-
 	export let data;
 </script>
 
@@ -17,12 +16,10 @@
 >
 	<OrbitControls />
 </T.PerspectiveCamera>
-<Stars />
-<!-- <T.AmbientLight intensity={0.1} /> -->
+<Stars count={5000} />
+<T.AmbientLight intensity={1} />
 
 <Sun />
-
-
 
 <InstancedMesh>
 	<T.SphereGeometry args={[0.5]} />
@@ -37,6 +34,7 @@
 			sideralOrbit={body.sideralOrbit}
 			eccentricity={body.eccentricity}
 			id={body.id}
+			planetData={body}
 		/>
 	{/each}
 </InstancedMesh>

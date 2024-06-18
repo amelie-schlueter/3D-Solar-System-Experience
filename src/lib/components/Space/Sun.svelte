@@ -48,7 +48,7 @@
 	<T.Mesh rotation-y={rotation} position-y={0} scale={$scale} on:click={() => console.log('sun')}>
 		<!-- Geometry and material for the sun -->
 		<T.IcosahedronGeometry args={[1, 6]} />
-		<T is={AmbientLight} intensity={2} />
+		<T is={AmbientLight} intensity={0.3} />
 		<T.MeshStandardMaterial map={earthTexture} />
 		<FakeGlowMaterial glowColor="orange" glowInternalRadius={20} />
 		<Outlines color="orange" opacity={0.5} thickness={0.005} />

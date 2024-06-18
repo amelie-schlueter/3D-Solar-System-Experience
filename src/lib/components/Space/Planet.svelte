@@ -3,7 +3,7 @@
 	import { HTML, Instance, Outlines, Text, interactivity, useCursor } from '@threlte/extras';
 	import { T, useLoader, useTask } from '@threlte/core';
 	import { TextureLoader, Texture } from 'three';
-	import { journeyStarted } from '$lib/stores/store';
+	import { defaultPopupContent, journeyStarted, popupContent } from '$lib/stores/store';
 	import Orbit from './Orbit.svelte';
 	import { convertDistance } from '$lib/utils';
 
@@ -21,8 +21,21 @@
 	export let meanRadius = 25362; // Mean radius in Kilometern
 	export let eccentricity = 0.0457; // Eccentricity of the orbit
 	export let id = 'planet'; // Default texture
+	export let planetData;
+
+	let planetsWithTexture = [
+		'jupiter',
+		'mars',
+		'mercure',
+		'neptune',
+		'saturne',
+		'terre',
+		'uranus',
+		'venus'
+	];
 
 	let stopped = false; // Initial state is true because we want to stop initially
+
 	// Variables to hold the texture
 	let planetTexture = new Texture();
 	let textureLoaded = false; // To track texture loading state
@@ -31,27 +44,17 @@
 	onMount(() => {
 		const loader = new TextureLoader();
 		// check if the texture exists
-
-		loader.load(
-			`src/lib/images/planets/${id}.jpeg`,
-
-			(texture) => {
+		if (planetsWithTexture.includes(id)) {
+			loader.load(`src/lib/images/planets/${id}.jpeg`, (texture) => {
 				planetTexture = texture;
 				textureLoaded = true;
-			},
-			undefined,
-			(err) => {
-				// Load the fallback texture
-				loader.load(
-					'src/lib/images/planets/planet.jpeg',
-					(fallbackTexture) => {
-						planetTexture = fallbackTexture;
-						textureLoaded = true;
-					},
-					undefined
-				);
-			}
-		);
+			});
+		} else {
+			loader.load('src/lib/images/planets/planet.jpeg', (texture) => {
+				planetTexture = texture;
+				textureLoaded = true;
+			});
+		}
 	});
 
 	const scale = tweened(scaleValue);
@@ -116,10 +119,11 @@
 		}
 		if (stopped) {
 			start();
+			popupContent.set(defaultPopupContent);
 		} else {
 			stop();
 			console.log('jetzt ist er gestopped');
-			goto(`/planet/${id}`);
+			popupContent.set({ ...planetData });
 		}
 		stopped = !stopped; // Toggle animation state
 	};
@@ -127,7 +131,9 @@
 
 {#if $hovering || stopped}
 	<HTML position.x={position.x - 0.5} position.z={position.z} position.y={position.y + 1}>
-		<div class="px-3 py-1.5 rounded-sm bg-muted"><p class="text-sm w-full">{name}</p></div>
+		<div class="px-3 py-1.5 rounded-sm bg-muted">
+			<p>{name}</p>
+		</div>
 	</HTML>
 {/if}
 
