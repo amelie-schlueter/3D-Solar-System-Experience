@@ -2,10 +2,11 @@
 	import { T } from '@threlte/core';
 	import { CatmullRomCurve3, Vector3 } from 'three';
 	import { MeshLineGeometry, MeshLineMaterial } from '@threlte/extras';
-	import { convertDistance } from '$lib/utils';
+	import { convertDistance, convertDistanceSmall } from '$lib/utils';
 
 	export let semimajorAxis = 2870658186; // Default in Kilometern
 	export let eccentricity = 0.0457; // Default eccentricity
+	export let caluclateDistanceSize = '';
 	let numPoints = 1000; // Number of points for the ellipse
 
 	function calculateEllipsePointsNew(numPoints: number) {
@@ -20,7 +21,11 @@
 			// Umrechnung von Polar- zu kartesischen Koordinaten
 			const x = radius * Math.cos(angle);
 			const y = radius * Math.sin(angle);
-			points.push(new Vector3(convertDistance(x), 0, convertDistance(y)));
+			if (caluclateDistanceSize === 'small') {
+				points.push(new Vector3(convertDistanceSmall(x), 0, convertDistanceSmall(y)));
+			} else {
+				points.push(new Vector3(convertDistance(x), 0, convertDistance(y)));
+			}
 			// points.push({ x, y });
 		}
 		return points;
