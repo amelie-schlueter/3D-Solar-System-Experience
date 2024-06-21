@@ -32,6 +32,7 @@
 			scaleValue={1}
 			semimajorAxis={body.semimajorAxis}
 			sideralOrbit={body.sideralOrbit}
+			sideralRotation={body.sideralRotation}
 			eccentricity={body.eccentricity}
 			id={body.id}
 			planetData={body}

@@ -13,6 +13,7 @@
 
 	let value = [25];
 	let color = '#ff0000';
+	let open = true;
 
 	const handleSliderChange = () => {
 		console.log('Slider value changed to: ', value[0]);
@@ -50,63 +51,82 @@
 </script>
 
 <div
-	class="p-6 max-w-[25rem] w-full fixed top-4 z-[10000000000000000000000000] bg-black/80 right-4 rounded-sm border"
+	class="p-6 max-w-[22rem] w-full fixed top-4 z-[10000000000000000000000000] bg-black/80 right-4 rounded-sm border"
 >
 	<div class="flex items-center justify-between">
 		<h3>Configurator</h3>
-		<Button size="sm" variant="ghost" on:click={() => console.log('collapse the configurator')}>
+		<Button
+			size="sm"
+			variant="ghost"
+			class="hover:bg-muted"
+			on:click={() => {
+				open = !open;
+			}}
+		>
 			<ChevronDown size={16} class="mr-1" />
 		</Button>
 	</div>
-	<p class="text-muted-foreground">
-		You can create your own planet. Just tweek the values and see how your planet changes
-	</p>
+	{#if open}
+		<div>
+			<p class="text-muted-foreground text-sm">
+				You can create your own planet. Just tweek the values and see how your planet changes
+			</p>
 
-	<div class="my-6 space-y-4">
-		<div class="flex items-start gap-4 flex-col">
-			<Label>Orbit Controls</Label>
-			<div class="flex items-center gap-2 flex-row">
-				<Checkbox bind:checked={$configuratorValues.autoRotate} />
-				<Label for="autoRotate">Auto Rotate</Label>
-			</div>
-		</div>
-		<div class="border-b my-1.5" />
-		<div class="flex items-start gap-4 flex-col">
-			<Label for="meanRadius">Mean Radius</Label>
-			<div class="px-2 w-full">
-				<Slider bind:value min={25} max={125} step={1} onValueChange={() => handleSliderChange()} />
-			</div>
-		</div>
-		<div class="flex items-start gap-2 flex-col dark">
-			<Label for="meanRadius">Color</Label>
-			<div class="px-2 py-1 border rounded-md text-sm">
-				<ColorPicker bind:hex={color} on:input={handleColorChange} label={'Pick a color'} />
-			</div>
-		</div>
-		<div class="flex items-start gap-2 flex-col w-full">
-			<div>
-				<Label for="meanRadius">Moons</Label>
-				<p class="text-sm text-muted-foreground">
-					You can add moons to your planet. Just click on "add moon".
-				</p>
-			</div>
-			{#if $configuratorValues.moons.length > 0}
-				{#each $configuratorValues.moons as moon, index}
-					<div class="flex items-center gap-2 w-full">
-						<Label for="moonName" class="w-full">Moon {index + 1}</Label>
-						<Button on:click={() => handleDeleteMoonClick(index)} size="sm" variant="destructive"
-							>Delete</Button
-						>
+			<div class="my-6 space-y-6">
+				<div class="flex items-start gap-4 flex-col">
+					<Label>Orbit Controls</Label>
+					<div class="flex items-center gap-2 flex-row">
+						<Checkbox bind:checked={$configuratorValues.autoRotate} />
+						<Label for="autoRotate">Auto Rotate</Label>
 					</div>
-				{/each}
-			{:else}
-				<Button size="sm" variant="secondary" on:click={handleAddMoonClick}>
-					<PlusIcon size={16} class="mr-1" />
-					Add Moon
-				</Button>
-			{/if}
+				</div>
+				<div class="border-b my-1.5" />
+				<div class="flex items-start gap-4 flex-col">
+					<Label for="meanRadius">Mean Radius</Label>
+					<div class="px-2 w-full">
+						<Slider
+							bind:value
+							min={25}
+							max={125}
+							step={1}
+							onValueChange={() => handleSliderChange()}
+						/>
+					</div>
+				</div>
+				<div class="flex items-start gap-2 flex-col dark">
+					<Label for="meanRadius">Color</Label>
+					<div class="px-2 py-1 border rounded-md text-sm">
+						<ColorPicker bind:hex={color} on:input={handleColorChange} label={'Pick a color'} />
+					</div>
+				</div>
+				<div class="flex items-start gap-2 flex-col w-full">
+					<div>
+						<Label for="meanRadius">Moons</Label>
+						<p class="text-sm text-muted-foreground">
+							You can add moons to your planet. Just click on "add moon".
+						</p>
+					</div>
+					{#if $configuratorValues.moons.length > 0}
+						{#each $configuratorValues.moons as moon, index}
+							<div class="flex items-center gap-2 w-full">
+								<Label for="moonName" class="w-full">Moon {index + 1}</Label>
+								<Button
+									on:click={() => handleDeleteMoonClick(index)}
+									size="sm"
+									variant="destructive">Delete</Button
+								>
+							</div>
+						{/each}
+					{:else}
+						<Button size="sm" variant="secondary" on:click={handleAddMoonClick}>
+							<PlusIcon size={16} class="mr-1" />
+							Add Moon
+						</Button>
+					{/if}
+				</div>
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>
 
 <!-- markup (zero or more items) goes here -->

@@ -5,10 +5,8 @@
 	import { TextureLoader, Texture } from 'three';
 	import { defaultPopupContent, journeyStarted, popupContent } from '$lib/stores/store';
 	import Orbit from './Orbit.svelte';
-	import { convertDistance } from '$lib/utils';
-
+	import { calculateSelfRotationSpeedHours, convertDistance } from '$lib/utils';
 	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
 
 	interactivity();
 
@@ -17,7 +15,7 @@
 	export let scaleValue = 1;
 	export let semimajorAxis = 2870658186; // In Kilometern
 	export let sideralOrbit = 30685.4; // Orbital period in days
-	export let rotationSpeed = 0.01; // Rotation speed for visualization
+	export let sideralRotation = 24.6; // Sideral rotation in hours
 	export let meanRadius = 25362; // Mean radius in Kilometern
 	export let eccentricity = 0.0457; // Eccentricity of the orbit
 	export let id = 'planet'; // Default texture
@@ -35,13 +33,26 @@
 	];
 
 	let stopped = false; // Initial state is true because we want to stop initially
+	let rotation = 0;
+	let rotationSpeed = 0.01; // Rotation speed for visualization
 
 	// Variables to hold the texture
 	let planetTexture = new Texture();
 	let textureLoaded = false; // To track texture loading state
 
+	const checkIfMeanRadiusIsEnough = (meanRadius: number) => {
+		if (meanRadius < 1000) {
+			return 1000;
+		} else {
+			return meanRadius;
+		}
+	};
+
 	// Load the sun texture on mount
 	onMount(() => {
+		// rotation = calculateRotationSpeed(sideralOrbit);
+		rotationSpeed = calculateSelfRotationSpeedHours(sideralRotation);
+		console.log(rotationSpeed, name);
 		const loader = new TextureLoader();
 		// check if the texture exists
 		if (planetsWithTexture.includes(id)) {
@@ -58,7 +69,6 @@
 	});
 
 	const scale = tweened(scaleValue);
-	let rotation = 0;
 	let elapsedTime = 0;
 
 	export function calculatePosition(
@@ -104,12 +114,11 @@
 		scale.set(1);
 	};
 
-	let value = '';
-
 	// Set up the animation task
 	const { start, stop } = useTask((delta) => {
 		elapsedTime += delta * 50;
 		position = calculatePosition(semimajorAxis, sideralOrbit, elapsedTime);
+		console.log(rotation, 'rotation');
 		rotation += rotationSpeed;
 	});
 
@@ -129,13 +138,13 @@
 	};
 </script>
 
-{#if $hovering || stopped}
-	<HTML position.x={position.x - 0.5} position.z={position.z} position.y={position.y + 1}>
-		<div class="px-3 py-1.5 rounded-sm bg-muted">
-			<p>{name}</p>
-		</div>
-	</HTML>
-{/if}
+<!-- {#if $hovering || stopped} -->
+<HTML position.x={position.x - 0.5} position.z={position.z} position.y={position.y + 1}>
+	<div class="px-3 py-1.5 rounded-sm bg-muted">
+		<p>{name}</p>
+	</div>
+</HTML>
+<!-- {/if} -->
 
 <Instance
 	position.x={position.x}

@@ -56,9 +56,51 @@ export const flyAndScale = (
 };
 
 export function convertDistance(distanceInKm: number) {
-	return distanceInKm / 40000000; // Scale down for better visualization in Three.js units
+	// Parameters for scaling
+
+	// const logarithmicBase = 10; // Base of the logarithm
+	// const scaleFactor = 4; // This scale factor will determine how much the distances are compressed
+
+	// // Adding 1 to avoid taking log of 0 which is undefined
+	// // Use Math.max to ensure positive distances only (logarithm of negative numbers is undefined)
+	// const adjustedDistance = Math.max(distanceInKm, 1);
+	// const logarithmicDistance = Math.log10(adjustedDistance) * scaleFactor;
+
+	// return logarithmicDistance;
+
+	return distanceInKm / 50000000; // Scale down for better visualization in Three.js units
 }
 
 export function convertDistanceSmall(distanceInKm: number) {
 	return distanceInKm / 400000000; // Scale down for better visualization in Three.js units
+}
+
+export function solveKepler(eccentricity: number, meanAnomaly: number) {
+	let E = meanAnomaly; // Initial estimate
+	const tolerance = 1e-6;
+	while (true) {
+		const deltaE =
+			(meanAnomaly - (E - eccentricity * Math.sin(E))) / (1 - eccentricity * Math.cos(E));
+		E += deltaE;
+		if (Math.abs(deltaE) < tolerance) break;
+	}
+	return E;
+}
+
+// Berechnet die Eigenrotation der Planeten
+
+export function calculateSelfRotationSpeedHours(sideralRotation: number): number {
+	// Ein voller Umlauf entspricht 360 Grad.
+	const fullRotationInDegrees = 360;
+
+	// Gesamtanzahl der Sekunden in einer Stunde
+	const secondsPerHour = 3600;
+
+	// Gesamtanzahl der Sekunden für einen kompletten sideralen Rotationszyklus
+	const totalRotationSeconds = sideralRotation * secondsPerHour;
+
+	// Berechnung der Eigenrotationsgeschwindigkeit in Grad pro Sekunde
+	const rotationSpeed = fullRotationInDegrees / totalRotationSeconds;
+
+	return rotationSpeed;
 }
