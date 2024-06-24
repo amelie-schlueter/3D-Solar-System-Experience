@@ -1,3 +1,4 @@
+import { planetDetailIsFetching } from '$lib/stores/store.js';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
@@ -5,6 +6,7 @@ export async function load({ params }) {
 	if (!params.id) {
 		throw error(404, 'Not found');
 	}
+	planetDetailIsFetching.set(true);
 	const response = await fetch(`https://api.le-systeme-solaire.net/rest/bodies/${params.id}`);
 	if (!response.ok) {
 		// Handle fetch errors
@@ -15,6 +17,7 @@ export async function load({ params }) {
 	if (!data) {
 		throw error(404, 'Not found');
 	}
+	planetDetailIsFetching.set(false);
 
 	return {
 		data: data,

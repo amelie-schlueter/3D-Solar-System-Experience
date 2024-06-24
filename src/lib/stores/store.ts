@@ -12,10 +12,12 @@ export const popupContent = writable({
 	massVolume: '',
 	discoveredBy: '',
 	discoveryDate: '',
-	avgTemp: ''
+	avgTemp: '',
+	sideralRotation: '',
+	sideralOrbit: ''
 });
 
-export const activePlanet = writable('earth');
+export const activePlanet = writable('');
 
 export const defaultPopupContent = {
 	name: '',
@@ -25,7 +27,9 @@ export const defaultPopupContent = {
 	massVolume: '',
 	discoveredBy: '',
 	discoveryDate: '',
-	avgTemp: ''
+	avgTemp: '',
+	sideralRotation: '',
+	sideralOrbit: ''
 };
 
 export const defaultMoon = {
@@ -65,3 +69,5 @@ export const configuratorValues = writable({
 	moons: [],
 	autoRotate: true
 });
+
+export const planetDetailIsFetching = writable(false);

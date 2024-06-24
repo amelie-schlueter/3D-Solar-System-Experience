@@ -1,6 +1,10 @@
 <script>
+	import { Home } from 'lucide-svelte';
 	import './styles.css';
 	import { ModeWatcher } from 'mode-watcher';
+	import { cn } from '$lib/utils';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import { buttonVariants } from '$lib/components/ui/button';
 </script>
 
 <div class="app">
@@ -8,7 +12,9 @@
 		class="flex items-center justify-between h-16 bg-background fixed top-0 z-[100000000000000000000000] p-4"
 	>
 		<div>
-			<a href="/configurator">About my site</a>
+			<a href="/" class={cn(buttonVariants({ size: 'icon', variant: 'secondary' }))}
+				><Home class="w-5 h-5" />
+			</a>
 		</div>
 	</nav>
 	<main>

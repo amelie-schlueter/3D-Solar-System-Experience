@@ -56,38 +56,13 @@ export const flyAndScale = (
 };
 
 export function convertDistance(distanceInKm: number) {
-	// Parameters for scaling
-
-	// const logarithmicBase = 10; // Base of the logarithm
-	// const scaleFactor = 4; // This scale factor will determine how much the distances are compressed
-
-	// // Adding 1 to avoid taking log of 0 which is undefined
-	// // Use Math.max to ensure positive distances only (logarithm of negative numbers is undefined)
-	// const adjustedDistance = Math.max(distanceInKm, 1);
-	// const logarithmicDistance = Math.log10(adjustedDistance) * scaleFactor;
-
-	// return logarithmicDistance;
-
-	return distanceInKm / 50000000; // Scale down for better visualization in Three.js units
+	const scale = Math.pow(10, -7); // Veränderte Skalierung zu 10^-5 für eine kleinere Skala
+	return distanceInKm * scale; // Skaliert die Distanz
 }
 
 export function convertDistanceSmall(distanceInKm: number) {
 	return distanceInKm / 400000000; // Scale down for better visualization in Three.js units
 }
-
-export function solveKepler(eccentricity: number, meanAnomaly: number) {
-	let E = meanAnomaly; // Initial estimate
-	const tolerance = 1e-6;
-	while (true) {
-		const deltaE =
-			(meanAnomaly - (E - eccentricity * Math.sin(E))) / (1 - eccentricity * Math.cos(E));
-		E += deltaE;
-		if (Math.abs(deltaE) < tolerance) break;
-	}
-	return E;
-}
-
-// Berechnet die Eigenrotation der Planeten
 
 export function calculateSelfRotationSpeedHours(sideralRotation: number): number {
 	// Ein voller Umlauf entspricht 360 Grad.
@@ -103,4 +78,11 @@ export function calculateSelfRotationSpeedHours(sideralRotation: number): number
 	const rotationSpeed = fullRotationInDegrees / totalRotationSeconds;
 
 	return rotationSpeed;
+}
+
+export function capitalizeFirstLetter(string: string) {
+	if (typeof string !== 'string' || string.length === 0) {
+		return '';
+	}
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }

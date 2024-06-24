@@ -7,8 +7,15 @@
 	import Orbit from './Orbit.svelte';
 	import { calculateSelfRotationSpeedHours, convertDistance } from '$lib/utils';
 	import { onMount } from 'svelte';
+	import { activePlanet } from '$lib/stores/store';
 
 	interactivity();
+
+	let planetIsActive = false; // A local variable to check if the current planet is active
+
+	$: {
+		$activePlanet === id ? (planetIsActive = true) : (planetIsActive = false);
+	}
 
 	export let name = 'Planet';
 	export let position = { x: 0, y: 0, z: 0 };
@@ -104,13 +111,12 @@
 
 	const onHoverIn = () => {
 		hovering.set(true);
-		console.log('hover in');
 		// scale
 		scale.set(1.1);
 	};
 	const onHoverOut = () => {
 		hovering.set(false);
-		console.log('hover out');
+
 		scale.set(1);
 	};
 
@@ -118,7 +124,6 @@
 	const { start, stop } = useTask((delta) => {
 		elapsedTime += delta * 50;
 		position = calculatePosition(semimajorAxis, sideralOrbit, elapsedTime);
-		console.log(rotation, 'rotation');
 		rotation += rotationSpeed;
 	});
 
@@ -129,9 +134,9 @@
 		if (stopped) {
 			start();
 			popupContent.set(defaultPopupContent);
+			activePlanet.set(id); // Set this planet as the current active planet
 		} else {
 			stop();
-			console.log('jetzt ist er gestopped');
 			popupContent.set({ ...planetData });
 		}
 		stopped = !stopped; // Toggle animation state
