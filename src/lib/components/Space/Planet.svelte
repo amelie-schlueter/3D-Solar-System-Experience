@@ -58,6 +58,7 @@
 	// Load the sun texture on mount
 	onMount(() => {
 		// rotation = calculateRotationSpeed(sideralOrbit);
+		popupContent.set(defaultPopupContent);
 		rotationSpeed = calculateSelfRotationSpeedHours(sideralRotation);
 		console.log(rotationSpeed, name);
 		const loader = new TextureLoader();

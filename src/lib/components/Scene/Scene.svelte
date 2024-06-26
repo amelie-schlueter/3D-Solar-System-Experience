@@ -16,7 +16,7 @@
 >
 	<OrbitControls />
 </T.PerspectiveCamera>
-<Stars count={5000} />
+<Stars count={20000} depth={200} />
 <T.AmbientLight intensity={1} />
 
 <Sun />

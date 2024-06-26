@@ -10,7 +10,7 @@
 	export let data;
 </script>
 
-<div class="w-screen h-screen bg-black relative">
+<div class="w-screen h-screen bg-black relative overflow-hidden">
 	{#if !$journeyStarted}
 		<div
 			class="absolute z-50 top-[20vh] text-white w-fit h-fit inset-0 mx-auto md:max-w-md max-w-sm text-center"

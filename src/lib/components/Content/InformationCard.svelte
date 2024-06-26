@@ -81,6 +81,14 @@
 						</div>
 					</div>
 				</Tooltip>
+				<div class="flex items-center justify-between w-full">
+					<div class="">
+						<p class="text-muted-foreground">Mean Radius</p>
+					</div>
+					<div class="">
+						<p>{$popupContent.meanRadius ? $popupContent.meanRadius : 'Unknown'} km</p>
+					</div>
+				</div>
 				<div class="flex items-center text-sm justify-between w-full">
 					<div class="">
 						<p class="text-muted-foreground">Discovery Date</p>

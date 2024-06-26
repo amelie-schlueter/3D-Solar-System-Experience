@@ -14,7 +14,8 @@ export const popupContent = writable({
 	discoveryDate: '',
 	avgTemp: '',
 	sideralRotation: '',
-	sideralOrbit: ''
+	sideralOrbit: '',
+	meanRadius: ''
 });
 
 export const activePlanet = writable('');
@@ -29,7 +30,8 @@ export const defaultPopupContent = {
 	discoveryDate: '',
 	avgTemp: '',
 	sideralRotation: '',
-	sideralOrbit: ''
+	sideralOrbit: '',
+	meanRadius: ''
 };
 
 export const defaultMoon = {
@@ -71,3 +73,5 @@ export const configuratorValues = writable({
 });
 
 export const planetDetailIsFetching = writable(false);
+
+export const detailMoonData = writable<any[]>([]);

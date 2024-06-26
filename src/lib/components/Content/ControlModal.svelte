@@ -40,7 +40,7 @@
 			<div class="flex items-center gap-4 text-sm">
 				<HotkeyWrapper>
 					<Hotkey>⌘</Hotkey>
-					<Hotkey><Mouse class="w-4 h-4" strokeWidth={1.5} /></Hotkey>
+					<Hotkey><Move class="w-4 h-4" strokeWidth={1.5} /></Hotkey>
 				</HotkeyWrapper>
 				<p>Pan Around</p>
 			</div>

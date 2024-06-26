@@ -56,8 +56,9 @@ export const flyAndScale = (
 };
 
 export function convertDistance(distanceInKm: number) {
-	const scale = Math.pow(10, -7); // Veränderte Skalierung zu 10^-5 für eine kleinere Skala
+	const scale = Math.pow(10, -7.3); // Veränderte Skalierung zu 10^-5 für eine kleinere Skala
 	return distanceInKm * scale; // Skaliert die Distanz
+	// return distanceInKm / 400000000; // Scale down for better visualization in Three.js units
 }
 
 export function convertDistanceSmall(distanceInKm: number) {
@@ -86,3 +87,9 @@ export function capitalizeFirstLetter(string: string) {
 	}
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export const getMoonData = async (url: string) => {
+	const response = await fetch(url);
+	const data = await response.json();
+	return data;
+};
