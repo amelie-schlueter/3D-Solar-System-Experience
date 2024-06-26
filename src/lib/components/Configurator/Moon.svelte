@@ -9,14 +9,14 @@
 	import Orbit from '../Space/Orbit.svelte';
 
 	// your script goes here
-	export let name = 'Planet';
+	export let name = 'Moon';
 	export let position = { x: 0, y: 0, z: 0 };
 	export let scaleValue = 1;
-	export let semimajorAxis = 2870658186; // In Kilometern
-	export let sideralOrbit = 30685.4; // Orbital period in days
+	export let semimajorAxis = 421800; // In Kilometern
+	export let sideralOrbit = 1.76914; // Orbital period in days
 	export let rotationSpeed = 0.01; // Rotation speed for visualization
-	export let meanRadius = 1737; // Mean radius in Kilometern
-	export let eccentricity = 0.0457; // Eccentricity of the orbit
+	export let meanRadius = 1821.5; // Mean radius in Kilometern
+	export let eccentricity = 0.004; // Eccentricity of the orbit
 
 	const scale = tweened(scaleValue);
 	let rotation = 0;
@@ -52,7 +52,7 @@
 	}
 
 	const { start, stop } = useTask((delta) => {
-		elapsedTime += delta * 50;
+		elapsedTime += delta * 0.1;
 		position = calculatePosition(semimajorAxis, sideralOrbit, elapsedTime);
 		rotation += rotationSpeed;
 	});
@@ -71,7 +71,7 @@
 	</T.Mesh>
 </Instance>
 
-<Orbit {semimajorAxis} {eccentricity} caluclateDistanceSize={'small'} />
+<Orbit {semimajorAxis} {eccentricity} caluclateDistanceSize="small" />
 
 <style>
 	/* your styles go here */

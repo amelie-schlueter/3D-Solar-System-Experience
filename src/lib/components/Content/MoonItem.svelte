@@ -14,21 +14,28 @@
 		detailMoonData.set(moonData);
 	};
 
+	const handleRemoveMoonClick = () => {
+		const moonData = $detailMoonData.filter(
+			(moonData) => moonData.id !== moon.rel.split('/').pop()
+		);
+		detailMoonData.set(moonData);
+	};
+
 	// if moon is already in detailMoonData then don't show the add button
 	$: moonExists = $detailMoonData.find((moonData) => moonData.id === moon.rel.split('/').pop());
 </script>
 
-<div class="p-2 border-b">
-	<div class="flex items-center justify-between">
+<div class="px-1.5 py-1.5 border-b">
+	<div class="flex items-center text-sm justify-between">
 		{moon.moon}
 		{#if moonExists}
 			<Tooltip openDelay={100}>
 				<TooltipTrigger>
 					<Button
-						variant="secondary"
+						variant="destructive"
 						size="icon"
-						class="w-7 h-7 p-0"
-						on:click={() => console.log('test')}
+						class="w-6 h-6 p-0"
+						on:click={handleRemoveMoonClick}
 					>
 						<Minus class="w-4 h-4" />
 					</Button>
@@ -43,7 +50,7 @@
 					<Button
 						variant="secondary"
 						size="icon"
-						class="w-7 h-7 p-0"
+						class="w-6 h-6 p-0"
 						on:click={handleAddMoonClick}
 						disabled={moonExists}
 					>

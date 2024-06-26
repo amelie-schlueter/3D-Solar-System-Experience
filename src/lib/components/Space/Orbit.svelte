@@ -36,5 +36,5 @@
 
 <T.Mesh>
 	<MeshLineGeometry points={ellipsePoints} />
-	<MeshLineMaterial color="lightgray" width={0.005} />
+	<MeshLineMaterial color="lightgray" width={0.04} />
 </T.Mesh>

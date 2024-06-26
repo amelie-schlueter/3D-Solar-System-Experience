@@ -62,7 +62,8 @@ export function convertDistance(distanceInKm: number) {
 }
 
 export function convertDistanceSmall(distanceInKm: number) {
-	return distanceInKm / 400000000; // Scale down for better visualization in Three.js units
+	const scale = Math.pow(10, -4.8); // Eine etwas größere Skalierung im Vergleich zu -7.3 in convertDistance
+	return distanceInKm * scale; // Skaliert die Distanz mit der gegebenen Skala
 }
 
 export function calculateSelfRotationSpeedHours(sideralRotation: number): number {

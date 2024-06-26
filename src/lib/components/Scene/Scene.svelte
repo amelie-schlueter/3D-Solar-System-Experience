@@ -35,6 +35,7 @@
 			sideralRotation={body.sideralRotation}
 			eccentricity={body.eccentricity}
 			id={body.id}
+			mainAnomaly={body.mainAnomaly}
 			planetData={body}
 		/>
 	{/each}

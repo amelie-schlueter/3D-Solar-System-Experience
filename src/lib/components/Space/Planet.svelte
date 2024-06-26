@@ -11,11 +11,7 @@
 
 	interactivity();
 
-	let planetIsActive = false; // A local variable to check if the current planet is active
-
-	$: {
-		$activePlanet === id ? (planetIsActive = true) : (planetIsActive = false);
-	}
+	$: planetIsActive = $activePlanet === id;
 
 	export let name = 'Planet';
 	export let position = { x: 0, y: 0, z: 0 };
@@ -26,6 +22,7 @@
 	export let meanRadius = 25362; // Mean radius in Kilometern
 	export let eccentricity = 0.0457; // Eccentricity of the orbit
 	export let id = 'planet'; // Default texture
+	export let mainAnomaly: number = 0;
 	export let planetData;
 
 	let planetsWithTexture = [
@@ -47,20 +44,13 @@
 	let planetTexture = new Texture();
 	let textureLoaded = false; // To track texture loading state
 
-	const checkIfMeanRadiusIsEnough = (meanRadius: number) => {
-		if (meanRadius < 1000) {
-			return 1000;
-		} else {
-			return meanRadius;
-		}
-	};
-
 	// Load the sun texture on mount
 	onMount(() => {
 		// rotation = calculateRotationSpeed(sideralOrbit);
 		popupContent.set(defaultPopupContent);
+
 		rotationSpeed = calculateSelfRotationSpeedHours(sideralRotation);
-		console.log(rotationSpeed, name);
+		elapsedTime = (mainAnomaly * sideralOrbit) / (2 * Math.PI); // Startzeit auf Basis der Anomalie
 		const loader = new TextureLoader();
 		// check if the texture exists
 		if (planetsWithTexture.includes(id)) {
@@ -82,9 +72,11 @@
 	export function calculatePosition(
 		semimajorAxis: number,
 		sideralOrbit: number,
-		elapsedTime: number
+		elapsedTime: number,
+		mainAnomaly: number = 0
 	) {
-		const M = ((2 * Math.PI) / sideralOrbit) * (elapsedTime % sideralOrbit); // Mean anomaly
+		const M = ((2 * Math.PI) / sideralOrbit) * (elapsedTime % sideralOrbit) + mainAnomaly;
+
 		let E = M; // Initial estimate of eccentric anomaly
 		const e = eccentricity;
 

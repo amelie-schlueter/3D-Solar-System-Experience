@@ -14,7 +14,6 @@
 	];
 </script>
 
-{JSON.stringify($detailMoonData)}
 <div>
 	{#each moons.slice(0, maxMoons) as moon}
 		<MoonItem {moon} />
