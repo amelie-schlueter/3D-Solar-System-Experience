@@ -23,7 +23,10 @@
 	export let eccentricity = 0.0457; // Eccentricity of the orbit
 	export let id = 'planet'; // Default texture
 	export let mainAnomaly: number = 0;
+	export let passedInclination = 0;
 	export let planetData;
+
+	console.log('passed inclination', passedInclination);
 
 	let planetsWithTexture = [
 		'jupiter',
@@ -39,6 +42,9 @@
 	let stopped = false; // Initial state is true because we want to stop initially
 	let rotation = 0;
 	let rotationSpeed = 0.01; // Rotation speed for visualization
+
+	const scale = tweened(scaleValue);
+	let elapsedTime = 0;
 
 	// Variables to hold the texture
 	let planetTexture = new Texture();
@@ -66,14 +72,12 @@
 		}
 	});
 
-	const scale = tweened(scaleValue);
-	let elapsedTime = 0;
-
 	export function calculatePosition(
 		semimajorAxis: number,
 		sideralOrbit: number,
 		elapsedTime: number,
-		mainAnomaly: number = 0
+		mainAnomaly: number = 0,
+		inclination: number = 0
 	) {
 		const M = ((2 * Math.PI) / sideralOrbit) * (elapsedTime % sideralOrbit) + mainAnomaly;
 
@@ -93,12 +97,29 @@
 			2 * Math.atan2(Math.sqrt(1 + e) * Math.sin(E / 2), Math.sqrt(1 - e) * Math.cos(E / 2));
 		const r = semimajorAxis * (1 - e * Math.cos(E)); // Calculate distance
 
+		const inclinationRadians = (inclination * Math.PI) / 180; // convert degrees to radians
+
+		console.log(inclinationRadians);
+
 		return {
 			x: convertDistance(r) * Math.cos(v),
 			y: 0, // Keep the planet on the orbital plane
 			z: convertDistance(r) * Math.sin(v)
 		};
 	}
+
+	// Set up the animation task
+	const { start, stop } = useTask((delta) => {
+		elapsedTime += delta * 50;
+		position = calculatePosition(
+			semimajorAxis,
+			sideralOrbit,
+			elapsedTime,
+			mainAnomaly,
+			passedInclination
+		);
+		rotation += rotationSpeed;
+	});
 
 	const { hovering } = useCursor();
 
@@ -112,13 +133,6 @@
 
 		scale.set(1);
 	};
-
-	// Set up the animation task
-	const { start, stop } = useTask((delta) => {
-		elapsedTime += delta * 50;
-		position = calculatePosition(semimajorAxis, sideralOrbit, elapsedTime);
-		rotation += rotationSpeed;
-	});
 
 	const clickHandler = () => {
 		if (!$journeyStarted) {

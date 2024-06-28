@@ -36,6 +36,7 @@
 			eccentricity={body.eccentricity}
 			id={body.id}
 			mainAnomaly={body.mainAnomaly}
+			passedInclination={body.inclination}
 			planetData={body}
 		/>
 	{/each}

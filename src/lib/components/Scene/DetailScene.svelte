@@ -18,7 +18,7 @@
 >
 	<OrbitControls />
 </T.PerspectiveCamera>
-<Stars />
+<Stars count={20000} depth={200} />
 
 <InstancedMesh>
 	<T.SphereGeometry args={[0.5]} />

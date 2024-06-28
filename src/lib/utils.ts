@@ -62,7 +62,7 @@ export function convertDistance(distanceInKm: number) {
 }
 
 export function convertDistanceSmall(distanceInKm: number) {
-	const scale = Math.pow(10, -4.8); // Eine etwas größere Skalierung im Vergleich zu -7.3 in convertDistance
+	const scale = Math.pow(10, -4.2); // Eine etwas größere Skalierung im Vergleich zu -7.3 in convertDistance
 	return distanceInKm * scale; // Skaliert die Distanz mit der gegebenen Skala
 }
 
@@ -93,4 +93,24 @@ export const getMoonData = async (url: string) => {
 	const response = await fetch(url);
 	const data = await response.json();
 	return data;
+};
+
+export const getAllMoonsData = async (moons: [{ moon: string; rel: string }]) => {
+	// Check if moons array is not empty and has the required structure
+	if (!moons || !Array.isArray(moons)) {
+		throw new Error('No moon data provided or invalid format');
+	}
+
+	// Create an array of fetch promises to get data for each moon
+	const fetchPromises = moons.map((moon) => getMoonData(moon.rel));
+
+	try {
+		// Wait for all fetch operations to complete
+		const results = await Promise.all(fetchPromises);
+		return results; // Return an array of moon data
+	} catch (error) {
+		// Handle possible errors that might occur during fetch operations
+		console.error('Failed to fetch moon data:', error);
+		throw error; // Rethrow or handle the error according to your error handling policy
+	}
 };

@@ -51,10 +51,6 @@
 	// Update rotation on every frame
 </script>
 
-<HTML>
-	<div>{name}</div>
-</HTML>
-
 {#if textureLoaded}
 	<T.Mesh
 		rotation-y={rotation}

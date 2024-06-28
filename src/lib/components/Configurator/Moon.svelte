@@ -7,6 +7,7 @@
 
 	import { convertDistance, convertDistanceSmall } from '$lib/utils';
 	import Orbit from '../Space/Orbit.svelte';
+	import { onMount } from 'svelte';
 
 	// your script goes here
 	export let name = 'Moon';
@@ -17,6 +18,30 @@
 	export let rotationSpeed = 0.01; // Rotation speed for visualization
 	export let meanRadius = 1821.5; // Mean radius in Kilometern
 	export let eccentricity = 0.004; // Eccentricity of the orbit
+	export let mainAnomaly = 0;
+
+	// Variables to hold the texture
+	let moonTexture = new Texture();
+	let textureLoaded = false; // To track texture loading state
+
+	// Load the sun texture on mount
+	onMount(() => {
+		// rotation = calculateRotationSpeed(sideralOrbit);
+
+		// rotationSpeed = calculateSelfRotationSpeedHours(sideralRotation);
+		elapsedTime = (mainAnomaly * sideralOrbit) / (2 * Math.PI); // Startzeit auf Basis der Anomalie
+		const loader = new TextureLoader();
+		// check if the texture exists
+
+		if (moonTexture.image) {
+			textureLoaded = true;
+		} else {
+			loader.load('/src/lib/images/moon.jpg', (texture) => {
+				moonTexture = texture;
+				textureLoaded = true;
+			});
+		}
+	});
 
 	const scale = tweened(scaleValue);
 	let rotation = 0;
@@ -62,12 +87,12 @@
 	position.x={position.x}
 	position.z={position.z}
 	position.y={position.y}
-	scale={($scale * meanRadius) / 25000}
+	scale={($scale * meanRadius) / 2500}
 	rotation.y={rotation}
 >
 	<T.Mesh on:click={() => console.log(name)}>
 		<T.IcosahedronGeometry args={[1, 6]} />
-		<T.MeshStandardMaterial color="white" />
+		<T.MeshStandardMaterial map={moonTexture} />
 	</T.Mesh>
 </Instance>
 

@@ -9,11 +9,18 @@ const openai = createOpenAI({
 });
 
 export const POST = (async ({ request }) => {
-	const { messages } = await request.json();
+	const { messages, planet } = await request.json();
 
+	console.log(planet);
 	const result = await streamText({
 		model: openai('gpt-4-turbo-preview'),
-		messages
+		messages: [
+			{
+				role: 'system',
+				content: `You are a professional ${planet} expert and you answer specfic answers the user has for this planet `
+			},
+			...messages
+		]
 	});
 
 	return result.toAIStreamResponse();

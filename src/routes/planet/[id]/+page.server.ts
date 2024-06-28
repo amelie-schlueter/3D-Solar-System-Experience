@@ -22,8 +22,9 @@ export async function load({ params }) {
 	});
 	const { text } = await generateText({
 		model: openai('gpt-4o'),
-		prompt: `Give me the captialized name of  ${data.englishName} planet.`
+		prompt: `You are a space expert and your task is to give me a brief introduction with 2 sentences to the planet:   ${data.englishName}  max. 200 characters`
 	});
+	planetDetailIsFetching.set(false);
 
 	console.log(text);
 	if (!data) {
