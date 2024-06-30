@@ -13,7 +13,7 @@
 	onMount(() => {
 		const loader = new TextureLoader();
 		loader.load(
-			'src/lib/images/sun.jpeg',
+			'/images/sun.jpeg',
 			(texture) => {
 				earthTexture = texture;
 				textureLoaded = true;

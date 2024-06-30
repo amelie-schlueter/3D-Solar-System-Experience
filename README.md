@@ -1,8 +1,8 @@
 <img src="src/app/opengraph-image.png" alt="quartett-preview"/>
 
-# 3D Solar System experience 🚀
+# 3D Solar System experience 🛰️👨‍🚀
 
-Visit the live site under: https://rocket-quartett-ai.vercel.app/ ⬅️
+Visit the live site under: 3d-solar-system-experience.vercel.app ⬅️
 
 ### About the Project
 
