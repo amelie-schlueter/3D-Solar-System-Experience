@@ -1,4 +1,4 @@
-<img src="src/app/opengraph-image.png" alt="quartett-preview"/>
+<img src="./static/documentation/preview.png" alt="solar-system-experience-preview"/>
 
 # 3D Solar System experience 🛰️👨‍🚀
 
