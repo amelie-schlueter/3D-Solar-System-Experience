@@ -2,7 +2,7 @@
 
 # 3D Solar System experience 🛰️👨‍🚀
 
-Visit the live site under: 3d-solar-system-experience.vercel.app ⬅️
+Visit the live site under: [3D Solar System Experience](https://3d-solar-system-experience.vercel.app) ⬅️
 
 ### About the Project
 
@@ -12,11 +12,10 @@ This is a university project. The goal was to create an 3d solar experience usin
 
 ### Features
 
-- [x] 🖼️ AI Generated Images
-- [x] 📶Streaming AI Responses using Vercel AI SDK
-- [x] 🪄 CSS Animations
-- [x] ↕️ Sort Functionality
-- [x] ⭕ Filter Functionality
+- [x] 🌐 3D Interactive Solar System
+- [x] 📶 Realtime Data from API
+- [x] 🪄 Furhter Information with AI Chat
+- [x] 🌓 Detail View for Planets including Moons
 - [x] 📲 Reponsiveness
 
 ### API's used
@@ -24,6 +23,7 @@ This is a university project. The goal was to create an 3d solar experience usin
 <b>Solar and Planet Data: </b>
 I used the Le Systeme Solaire API to get the data for the solar system. You can check out the API here:
 [Solar API](https://api.le-systeme-solaire.net/rest/bodies)
+<br/>
 <img src="./static/documentation/api-preview.png" alt="solar-api-preview" style="width: 50%;"/>
 
 To provide even more information about specific planets, I used the OpenAI API to generate text based on the data provided by the Le Systeme Solaire API. You can check out the API here:
@@ -37,18 +37,20 @@ I also used the Vercel [AI SDK](https://sdk.vercel.ai/docs/introduction) to stre
 
 ---
 
-- NextJS
-- Tailwind CSS
-- Typescript
-- ShadcnUI
-- Vercel AI SDK
+- [SvelteKit](https://svelte.dev/)
+- [Threlte](https://threlte.xyz/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vercel AI SDK](https://sdk.vercel.ai/docs/introduction)
+- [ShadcnUISvelte](https://www.shadcn-svelte.com/)
+- [OpenAI](https://platform.openai.com/docs/api-reference/chat)
 
 ---
 
 ## How it works
 
 1. Clone the Repo
-2. Create a .env.local file in your root directory
+2. Replace the `.env.example` file with a `.env.local` file in your root directory and replace your OpenAI API key.
 
 ```
 OPENAI_API_KEY=YOUR_API_KEY
