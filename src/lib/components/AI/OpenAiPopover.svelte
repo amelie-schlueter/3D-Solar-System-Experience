@@ -46,7 +46,7 @@
 			Ask AI
 		</Button></Popover.Trigger
 	>
-	<Popover.Content class=" lg:w-[32rem] w-[27rem] mb-2 px-4 py-3">
+	<Popover.Content class=" lg:w-[32rem] w-[90vw] mb-2 px-4 py-3">
 		<div class="flex flex-col gap-2">
 			{#if $messages.length !== 0}
 				<ul class="space-y-4 py-2">

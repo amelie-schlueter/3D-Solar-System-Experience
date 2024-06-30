@@ -7,7 +7,9 @@
 </script>
 
 <div class="app">
-	<nav class="flex items-center justify-between h-16 fixed top-0 z-[100000000000000000000000] p-4">
+	<nav
+		class="flex items-center justify-between h-16 fixed bottom-4 md:top-0 z-[100000000000000000000000] p-4"
+	>
 		<div>
 			<a href="/" class={cn(buttonVariants({ size: 'icon', variant: 'secondary' }))}
 				><Home class="w-5 h-5" />

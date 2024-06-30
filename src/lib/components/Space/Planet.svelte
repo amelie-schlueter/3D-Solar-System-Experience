@@ -26,8 +26,6 @@
 	export let passedInclination = 0;
 	export let planetData;
 
-	console.log('passed inclination', passedInclination);
-
 	let planetsWithTexture = [
 		'jupiter',
 		'mars',
@@ -99,8 +97,6 @@
 
 		const inclinationRadians = (inclination * Math.PI) / 180; // convert degrees to radians
 
-		console.log(inclinationRadians);
-
 		return {
 			x: convertDistance(r) * Math.cos(v),
 			y: 0, // Keep the planet on the orbital plane
@@ -166,11 +162,7 @@
 	rotation.y={rotation}
 	on:click={clickHandler}
 >
-	<T.Mesh
-		on:click={() => console.log(name)}
-		on:pointerenter={onHoverIn}
-		on:pointerleave={onHoverOut}
-	>
+	<T.Mesh on:click={() => ''} on:pointerenter={onHoverIn} on:pointerleave={onHoverOut}>
 		<T.IcosahedronGeometry args={[1, 6]} />
 		<T.MeshStandardMaterial map={planetTexture} />
 		{#if stopped}

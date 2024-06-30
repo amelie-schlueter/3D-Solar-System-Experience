@@ -25,7 +25,6 @@
 				class="mt-4"
 				on:click={() => {
 					journeyStarted.set(true);
-					console.log('start journey');
 				}}>Explore</Button
 			>
 		</div>

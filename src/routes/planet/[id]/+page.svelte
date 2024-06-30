@@ -34,7 +34,7 @@
 
 <div class="w-screen h-screen bg-black relative overflow-hidden">
 	<div
-		class="bg-background/60 fixed top-8 right-8 backdrop-blur-sm border rounded-md w-[25rem] p-4"
+		class="bg-background/60 fixed md:top-8 top-4 md:right-8 right-0 left-0 backdrop-blur-sm border rounded-md w-[90vw] mx-auto md:m-0 md:w-[25rem] p-4"
 	>
 		<div class="flex items-center justify-between">
 			<h3>{data.data.name}</h3>

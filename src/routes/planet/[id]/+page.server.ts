@@ -26,7 +26,6 @@ export async function load({ params }) {
 	});
 	planetDetailIsFetching.set(false);
 
-	console.log(text);
 	if (!data) {
 		throw error(404, 'Not found');
 	}
