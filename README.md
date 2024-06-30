@@ -1,3 +1,5 @@
+<img src="./static/documentation/preview.png" alt="banner" style="width: 100%;"/>
+
 # 3D Solar System experience 🛰️👨‍🚀
 
 Visit the live site under: [3D Solar System Experience](https://3d-solar-system-experience.vercel.app) ⬅️
