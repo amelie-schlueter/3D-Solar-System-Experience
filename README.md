@@ -1,5 +1,3 @@
-<img src="./static/documentation/preview.png" alt="solar-system-experience-preview"/>
-
 # 3D Solar System experience 🛰️👨‍🚀
 
 Visit the live site under: [3D Solar System Experience](https://3d-solar-system-experience.vercel.app) ⬅️
@@ -14,7 +12,7 @@ This is a university project. The goal was to create an 3d solar experience usin
 
 - [x] 🌐 3D Interactive Solar System
 - [x] 📶 Realtime Data from API
-- [x] 🪄 Furhter Information with AI Chat
+- [x] 🪄 Further Information with AI Chat
 - [x] 🌓 Detail View for Planets including Moons
 - [x] 📲 Reponsiveness
 
