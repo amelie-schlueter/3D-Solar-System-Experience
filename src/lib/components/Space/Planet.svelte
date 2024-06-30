@@ -60,12 +60,12 @@
 		const loader = new TextureLoader();
 		// check if the texture exists
 		if (planetsWithTexture.includes(id)) {
-			loader.load(`src/lib/images/planets/${id}.jpeg`, (texture) => {
+			loader.load(`/images/planets/${id}.jpeg`, (texture) => {
 				planetTexture = texture;
 				textureLoaded = true;
 			});
 		} else {
-			loader.load('src/lib/images/planets/planet.jpeg', (texture) => {
+			loader.load('/images/planets/planet.jpeg', (texture) => {
 				planetTexture = texture;
 				textureLoaded = true;
 			});

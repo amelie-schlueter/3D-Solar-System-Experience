@@ -11,16 +11,10 @@ const openai = createOpenAI({
 export const POST = (async ({ request }) => {
 	const { messages, planet } = await request.json();
 
-	console.log(planet);
 	const result = await streamText({
 		model: openai('gpt-4-turbo-preview'),
-		messages: [
-			{
-				role: 'system',
-				content: `You are a professional ${planet} expert and you answer specfic answers the user has for this planet `
-			},
-			...messages
-		]
+		system: `You are a professional ${planet} expert and you answer specfic answers the user has for this planet. Please use a max of 350 character per answer`,
+		messages
 	});
 
 	return result.toAIStreamResponse();

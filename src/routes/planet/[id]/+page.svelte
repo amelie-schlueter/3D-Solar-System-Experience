@@ -74,6 +74,6 @@
 		<DetailScene data={data.data} />
 	</Canvas>
 	<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 mx-auto">
-		<OpenAiPopover />
+		<OpenAiPopover name={data.data.name} />
 	</div>
 </div>

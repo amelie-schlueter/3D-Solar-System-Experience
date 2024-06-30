@@ -36,7 +36,7 @@
 		if (moonTexture.image) {
 			textureLoaded = true;
 		} else {
-			loader.load('/src/lib/images/moon.jpg', (texture) => {
+			loader.load('/images/moon.jpg', (texture) => {
 				moonTexture = texture;
 				textureLoaded = true;
 			});
@@ -82,6 +82,12 @@
 		rotation += rotationSpeed;
 	});
 </script>
+
+<HTML position.x={position.x - 0.5} position.z={position.z} position.y={position.y + 1}>
+	<div class="px-3 py-1.5 rounded-sm bg-muted">
+		<p>{name}</p>
+	</div>
+</HTML>
 
 <Instance
 	position.x={position.x}

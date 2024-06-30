@@ -14,6 +14,7 @@
 	import Button from '../ui/button/button.svelte';
 	import { capitalizeFirstLetter } from '$lib/utils';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	//@ts-ignore
 	export function testAnimation(node, { duration }) {
