@@ -11,7 +11,6 @@
 	export let meanRadius = 1;
 	export let scaleValue = 1;
 
-	let basicImagesPath = 'http://localhost:5173/src/lib/images/planets/';
 	let planetTexture = new Texture();
 	let textureLoaded = false; // To track texture loading state
 
@@ -21,7 +20,7 @@
 		// check if the texture exists
 
 		loader.load(
-			`${basicImagesPath}/${id}.jpeg`,
+			`/images/planets/${id}.jpeg`,
 
 			(texture) => {
 				planetTexture = texture;
