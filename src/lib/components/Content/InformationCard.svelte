@@ -98,15 +98,6 @@
 						<p>{$popupContent.discoveryDate ? $popupContent.discoveryDate : 'Unknown'}</p>
 					</div>
 				</div>
-
-				<div class="flex items-center text-sm justify-between w-full">
-					<div class="">
-						<p class="text-muted-foreground">Discoverd by</p>
-					</div>
-					<div class="">
-						<p>{$popupContent.discoveredBy ? $popupContent.discoveredBy : 'Unknown'}</p>
-					</div>
-				</div>
 				<div class="border-b py-1"></div>
 				<div class="">
 					<p class="text-sm leading-4 pb-4 pt-2">
